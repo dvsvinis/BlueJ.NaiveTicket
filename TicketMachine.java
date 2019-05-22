@@ -23,20 +23,55 @@ public class TicketMachine
      * Note that the price must be greater than zero, and there
      * are no checks to ensure this.
      */
-    public TicketMachine(int ticketCost)
+    public TicketMachine () 
     {
-        price = ticketCost;
+        price = 1000;
         balance = 0;
         total = 0;
     }
 
     /**
-     * Return the price of a ticket.
+     * Constructor that issues ticket with a specified ticketCost.
+     */
+    public TicketMachine (int ticketCost) 
+    {
+        price = ticketCost;
+    }
+    
+    /**
+     * Prompt user to insert money.
+     */
+    public void prompt()
+    {
+        System.out.println("Please insert the correct amount of money.");
+
+    }
+    
+    /**
+     * Show the price of a ticket.
+     */
+    public void showPrice()
+    {
+        System.out.println("The price of a ticket is " + price + " cents.");
+
+    }
+    
+    /**
+     * Display the price of a ticket.
      */
     public int getPrice()
     {
         return price;
     }
+    
+    /**
+     * Set the price of a ticket.
+     */
+    public void setPrice(int newPrice)
+    {
+        price = newPrice;
+    }
+    
 
     /**
      * Return the amount of money already inserted for the
@@ -47,14 +82,32 @@ public class TicketMachine
         return balance;
     }
 
-    /**
+   /**
      * Receive an amount of money in cents from a customer.
      */
     public void insertMoney(int amount)
     {
+        if(amount > 0) {
         balance = balance + amount;
     }
+    else {
+        System.out.println("Insert a positive amount: " + amount);
+    }
+    }
 
+    
+    /**
+    * Return the money in the balance.
+    * The balance is cleared.
+    */
+    public int refundBalance() {
+        int amountToRefund; 
+        amountToRefund = balance; 
+        balance = 0;
+        return amountToRefund;
+    }
+    
+    
     /**
      * Print a ticket.
      * Update the total collected and
@@ -62,6 +115,7 @@ public class TicketMachine
      */
     public void printTicket()
     {
+        if(balance >= price) {
         // Simulate the printing of a ticket.
         System.out.println("##################");
         System.out.println("# The BlueJ Line");
@@ -71,8 +125,23 @@ public class TicketMachine
         System.out.println();
 
         // Update the total collected with the balance.
-        total = total + balance;
-        // Clear the balance.
-        balance = 0;
+        total = total + price;
+        // Reduce the balance by the price.
+        balance = balance - price;
+        }
+        else {
+            int amountLeftToPay = price - balance;
+            System.out.println("You must insert at least: " + amountLeftToPay + 
+        " cents.");
+        }       
+    }
+    
+    /**
+    * Empty the money from machine.
+    * The total is cleared.
+    */
+    public int emptyMachine() {
+        total = 0;
+        return total;
     }
 }
